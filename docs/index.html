@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automations - Workflow Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #f7f6f3;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: #2d3748;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-cta {
+            background: #ffffff;
+            color: #2d3748;
+            padding: 10px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 32px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            color: #1a202c;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #4a5568;
+            max-width: 680px;
+            margin: 0 auto 48px;
+            line-height: 1.5;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            border-radius: 28px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2d3748;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #1a202c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Product Showcase */
+        .product-showcase {
+            padding: 60px 0 80px;
+        }
+
+        .product-frame {
+            background: #1a202c;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-screen {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 80px 60px;
+            position: relative;
+        }
+
+        .screen-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .screen-badge {
+            background: #3b82f6;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .screen-content h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1a202c;
+        }
+
+        .screen-content p {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 40px;
+        }
+
+        .workflow-steps {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: left;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .workflow-step:last-child {
+            border-bottom: none;
+        }
+
+        .workflow-step::before {
+            content: "→";
+            color: #3b82f6;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Feature Section */
+        .feature-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .section-label {
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 64px;
+            color: #1a202c;
+            letter-spacing: -0.02em;
+        }
+
+        .feature-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
+        }
+
+        .pill {
+            background: #3b82f6;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            text-align: left;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a202c;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Dark Section */
+        .dark-section {
+            background: #1a202c;
+            padding: 100px 0;
+            color: #ffffff;
+        }
+
+        .dark-section .section-label {
+            color: #60a5fa;
+        }
+
+        .dark-section .section-title {
+            color: #ffffff;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 48px;
+            text-align: left;
+        }
+
+        .benefit h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .benefit p {
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+        }
+
+        .steps-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 48px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            min-width: 56px;
+            height: 56px;
+            background: #2d3748;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a202c;
+        }
+
+        .step-content p {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .use-case {
+            background: #f7fafc;
+            padding: 36px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .use-case h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a202c;
+        }
+
+        .use-case p {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial {
+            background: #ffffff;
+            padding: 36px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            color: #2d3748;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .author {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #1a202c;
+            font-size: 15px;
+        }
+
+        .author-role {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 120px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+        }
+
+        .final-cta h2 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 48px;
+            opacity: 0.95;
+        }
+
+        .final-cta .btn-primary {
+            background: #ffffff;
+            color: #667eea;
+        }
+
+        .final-cta .btn-primary:hover {
+            background: #f7fafc;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a202c;
+            color: #ffffff;
+            padding: 60px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid #2d3748;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #718096;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .product-screen {
+                padding: 40px 24px;
+            }
+
+            .step {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .final-cta h2 {
+                font-size: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">AUTOMATIONS</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how">How It Works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <a href="#start" class="nav-cta">Get Started</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Introducing Automations</div>
+            <h1>Automate Your Workflow,<br>Amplify Your Results</h1>
+            <p>Build powerful automations without code. Connect your tools, streamline processes, and focus on what truly matters for your business.</p>
+            <div class="cta-buttons">
+                <a href="#start" class="btn btn-primary">Start Free Trial</a>
+                <a href="#demo" class="btn btn-secondary">Watch Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section class="product-showcase">
+        <div class="container">
+            <div class="product-frame">
+                <div class="product-screen">
+                    <div class="screen-content">
+                        <div class="screen-badge">Visual Workflow Builder</div>
+                        <h2>Build Automations Visually</h2>
+                        <p>Drag and drop to create powerful workflows that connect all your favorite tools together.</p>
+                        <div class="workflow-steps">
+                            <div class="workflow-step">When form is submitted</div>
+                            <div class="workflow-step">Create record in CRM</div>
+                            <div class="workflow-step">Send email notification</div>
+                            <div class="workflow-step">Add to mailing list</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Overview -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="section-label">Features</div>
+            <h2 class="section-title">Everything you need to automate</h2>
+            
+            <div class="feature-pills">
+                <span class="pill">No-Code Builder</span>
+                <span class="pill">1000+ Integrations</span>
+                <span class="pill">Smart Triggers</span>
+                <span class="pill">Real-time Sync</span>
+                <span class="pill">Team Collaboration</span>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>No-Code Builder</h3>
+                    <p>Intuitive drag-and-drop interface lets anyone create complex automations without writing code.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>1000+ Integrations</h3>
+                    <p>Connect all your favorite tools and apps seamlessly. From CRMs to spreadsheets, we've got you covered.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Triggers</h3>
+                    <p>Set up intelligent conditions that trigger actions exactly when you need them, automatically.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Benefits -->
+    <section class="dark-section">
+        <div class="container">
+            <div class="section-label">Benefits</div>
+            <h2 class="section-title">Why teams choose Automations</h2>
+            
+            <div class="benefits-grid">
+                <article class="benefit">
+                    <h3>Save 10+ hours per week</h3>
+                    <p>Eliminate repetitive tasks and manual data entry. Free up time for strategic work that moves your business forward.</p>
+                </article>
+                <article class="benefit">
+                    <h3>Reduce human error</h3>
+                    <p>Automated workflows execute perfectly every time. No more missed steps or data inconsistencies.</p>
+                </article>
+                <article class="benefit">
+                    <h3>Scale effortlessly</h3>
+                    <p>Handle 10x the volume without 10x the team size. Your automations grow with your business.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 64px;">
+                <div class="section-label">Process</div>
+                <h2 class="section-title">Get started in minutes</h2>
+            </div>
+            
+            <div class="steps-container">
+                <article class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Choose your trigger</h3>
+                        <p>Select the event that starts your automation. New email, form submission, schedule, or any event from your connected apps.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Add your actions</h3>
+                        <p>Define what happens next. Send notifications, update records, create tasks, or execute multi-step workflows.</p>
+                    </div>
+                </article>
+                <article class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Activate and monitor</h3>
+                        <p>Turn on your automation and watch it work. Track performance and optimize based on real-time insights.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 64px;">
+                <div class="section-label">Use Cases</div>
+                <h2 class="section-title">Built for every team</h2>
+            </div>
+            
+            <div class="use-cases-grid">
+                <article class="use-case">
+                    <h3>Sales & Marketing</h3>
+                    <p>Auto-qualify leads, sync CRM data, and send personalized follow-ups at scale.</p>
+                </article>
+                <article class="use-case">
+                    <h3>Customer Support</h3>
+                    <p>Route tickets automatically, update customers on status, and escalate urgent issues.</p>
+                </article>
+                <article class="use-case">
+                    <h3>Finance & Operations</h3>
+                    <p>Automate invoice processing, expense approvals, and data reconciliation.</p>
+                </article>
+                <article class="use-case">
+                    <h3>HR & Recruiting</h3>
+                    <p>Streamline onboarding, automate candidate communications, and sync HR systems.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 64px;">
+                <div class="section-label">Testimonials</div>
+                <h2 class="section-title">Trusted by 1000+ businesses</h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                <article class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Automations has transformed how our team works. We've automated 80% of repetitive tasks and focus on what really matters."</p>
+                    <div class="author">
+                        <div class="avatar"></div>
+                        <div>
+                            <div class="author-name">Sarah Chen</div>
+                            <div class="author-role">Operations Manager</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"The no-code builder is incredibly intuitive. Our non-technical team creates complex workflows without IT help."</p>
+                    <div class="author">
+                        <div class="avatar"></div>
+                        <div>
+                            <div class="author-name">Michael Rodriguez</div>
+                            <div class="author-role">Head of Sales</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"We've saved over 40 hours per week across our team. The ROI was immediate and the platform keeps getting better."</p>
+                    <div class="author">
+                        <div class="avatar"></div>
+                        <div>
+                            <div class="author-name">Emily Johnson</div>
+                            <div class="author-role">CEO, Streamline</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to automate?</h2>
+            <p>Join thousands of teams saving time with Automations</p>
+            <a href="#start" class="btn btn-primary" id="start">Start Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2026 Automations. All rights reserved.</div>
+                <div class="footer-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
